@@ -1,0 +1,76 @@
+<section class="max-w-5xl mx-auto text-center py-12 px-6">
+  <!-- Title -->
+  <h1 class="text-3xl font-bold text-gray-800 mb-3">Importation d’image</h1>
+  <p class="text-gray-600 mb-8">Importez vos images favorites et consultez-les dans la galerie.</p>
+
+  <!-- File Upload -->
+  <div
+    class="border-2 border-dashed border-gray-400 rounded-lg p-10 w-full bg-gray-50 hover:bg-gray-100 transition"
+  >
+    <div class="flex flex-col items-center gap-4">
+      <!-- Bloc affiché si aucun fichier n’est sélectionné -->
+      <div *ngIf="!selectedFile" class="flex flex-col items-center gap-4">
+        <fa-icon [icon]="faCloudArrowUp" size="3x" class="text-gray-700"></fa-icon>
+        <p class="text-gray-600 text-sm">Choisissez l’image qui vous convient</p>
+
+        <!-- Upload Input -->
+        <label
+          for="fileInput"
+          class="cursor-pointer bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
+        >
+          Sélectionner une image
+        </label>
+        <input id="fileInput" type="file" hidden (change)="onFileSelected($event)" />
+      </div>
+
+      <!-- Bloc affiché si un fichier est sélectionné -->
+      <div *ngIf="selectedFile" class="flex flex-col gap-4 items-center justify-between">
+        <div class="flex flex-col items-center gap-3">
+          <fa-icon [icon]="faFile" class="text-gray-600" size="3x"></fa-icon>
+          <div>
+            <p class="font-medium text-gray-800">{{ selectedFile.name }}</p>
+            <p class="text-xs text-gray-500">{{ (selectedFile.size / 1024).toFixed(2) }} KB</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4" [ngClass]="{ 'flex-col': !isImageFile }">
+          <!-- Bouton confirmer si image -->
+          <div *ngIf="isImageFile; else notImage">
+            <button
+              class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
+              (click)="confirmImport()"
+            >
+              Confirmer l’importation
+            </button>
+          </div>
+
+          <!-- Message si pas image -->
+          <ng-template #notImage>
+            <p class="text-red-600 text-base font-medium">Ce fichier n’est pas une image</p>
+          </ng-template>
+
+          <!-- Upload Input -->
+          <label
+            for="fileInput"
+            class="cursor-pointer bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
+          >
+            Choisir un autre fichier
+          </label>
+          <input id="fileInput" type="file" hidden (change)="onFileSelected($event)" />
+        </div>
+      </div>
+
+      <!-- Success & Error Messages -->
+      <p *ngIf="successMessage" class="text-green-600 text-base mt-2">{{ successMessage }}</p>
+      <p *ngIf="errorMessage" class="text-red-600 text-sm mt-2">{{ errorMessage }}</p>
+    </div>
+  </div>
+
+  <!-- Go to Gallery Button -->
+  <a
+    routerLink="/gallery"
+    class="mt-10 inline-block px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+  >
+    Voir la galerie
+  </a>
+</section>

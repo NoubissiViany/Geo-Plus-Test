@@ -1,0 +1,63 @@
+<section class="max-w-6xl mx-auto text-center py-10 px-4">
+  <h1 class="text-4xl font-bold text-gray-800 mb-6">Galerie d’images</h1>
+
+  <!-- Show images if available -->
+  <div
+    *ngIf="images.length > 0; else emptyState"
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+  >
+    <div
+      *ngFor="let img of images"
+      class="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-2xl transition"
+    >
+      <!-- Image -->
+      <div class="relative w-full h-56 flex items-center justify-center bg-gray-100">
+        <img
+          [src]="img"
+          alt="Uploaded Image"
+          class="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
+          (load)="getImageDetails(img, $event)"
+        />
+      </div>
+
+      <!-- Image details -->
+      <div class="p-4 text-left">
+        <p class="font-semibold text-gray-800 truncate">{{ getFileName(img) }}</p>
+        <p class="text-xs text-gray-500">
+          {{ imageDetails[img].width }} x {{ imageDetails[img].height }} px
+        </p>
+        <p *ngIf="imageDetails[img].size" class="text-xs text-gray-400">
+          {{ (imageDetails[img].size! / 1024).toFixed(1) }} KB
+        </p>
+
+        <!-- Actions -->
+        <div class="mt-3 flex justify-between items-center">
+          <button
+            (click)="downloadImage(img)"
+            class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            title="Télécharger l’image"
+            aria-label="Télécharger l’image"
+          >
+            <fa-icon [icon]="faDownload"></fa-icon>
+          </button>
+          <span class="text-xs text-gray-500 italic">Image</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty state template -->
+  <ng-template #emptyState>
+    <p class="text-gray-600 text-lg">Aucune image n’a encore été importée.<br /></p>
+  </ng-template>
+
+  <!-- Back to Home button -->
+  <div class="mt-8">
+    <a
+      routerLink="/"
+      class="inline-block bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition"
+    >
+      Retour à l’accueil pour importer
+    </a>
+  </div>
+</section>
