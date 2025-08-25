@@ -78,7 +78,7 @@ Application frontend par défaut : `http://localhost:4200`
 2. Téléversez une image via le formulaire.
 3. Le backend stocke l’image et renvoie son chemin d’accès.
 4. L’image apparaît dans la galerie.
-5. Cliquez sur une image pour la **télécharger**.
+5. Cliquez icon télécharger pour **télécharger** une image.
 
 ---
 
